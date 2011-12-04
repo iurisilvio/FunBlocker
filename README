@@ -1,11 +1,5 @@
 FunBlocker is a script to remove annoying posts in Facebook, mainly funny [re]posts.
 
-You need Google Chrome with JavaScript Injector plugin to use this script.
-
-JavaScript Injector: https://chrome.google.com/webstore/detail/abdogfafejmdomllalkdegagoehgbdbk
-
 Add main.js code to http://www.facebook.com URL, using JavaScript Injector.
-
-You can add/remove ignored profiles in main.js code.
 
 I accept any suggestions about how to improve this script. I really want to vanish these posts.
