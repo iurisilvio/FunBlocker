@@ -1,5 +1,5 @@
 var profiles = ['PiadasFail', 'HumorNoFace', 'JoSuado', 'paniconainternet',
-                'OMelhorPanico']
+                'OMelhorPanico', 'trustmestore']
 var context = jQuery('#contentArea');
 
 function callback() {
