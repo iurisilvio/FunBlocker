@@ -1,4 +1,4 @@
-var profiles = ['PiadasFail', 'HumorNoFace']
+var profiles = ['PiadasFail', 'HumorNoFace', 'JoSuado']
 var context = jQuery('#contentArea');
 
 function callback() {
