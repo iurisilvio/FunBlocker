@@ -1,6 +1,7 @@
 var bad_profiles =  ['PiadasFail', 'HumorNoFace', 'JoSuado',
                      'JoSuadoNoFace', 'paniconainternet', 'OMelhorPanico',
-                     'trustmestore', 'Humormetal'];
+                     'trustmestore', 'Humormetal', 'Humordido',
+                     'JoSuadoPanico'];
 
 function get_stories() {
     var content = document.getElementById('contentArea');
