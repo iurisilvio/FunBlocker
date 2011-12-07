@@ -1,7 +1,16 @@
-var bad_profiles =  ['PiadasFail', 'HumorNoFace', 'JoSuado',
-                     'JoSuadoNoFace', 'paniconainternet', 'OMelhorPanico',
-                     'trustmestore', 'Humormetal', 'Humordido',
-                     'JoSuadoPanico'];
+var default_config = {
+    bad_profiles: [
+        'PiadasFail', 'HumorNoFace', 'JoSuado',
+        'JoSuadoNoFace', 'paniconainternet', 'OMelhorPanico',
+        'trustmestore', 'Humormetal', 'Humordido',
+        'JoSuadoPanico', 'EngenhariaFacts'
+    ]
+}
+
+// Store a default value for bad_profiles.
+if (localStorage.bad_profiles == undefined) {
+    localStorage.bad_profiles = default_config.bad_profiles;
+}
 
 function get_stories() {
     var content = document.getElementById('contentArea');
@@ -24,6 +33,7 @@ function remove_story(story) {
 }
 
 function is_bad_profile(profile) {
+    var bad_profiles = localStorage.bad_profiles || [];
     for (var i = 0; i < bad_profiles.length; i++) {
         if (bad_profiles[i] == profile) {
             return true;
