@@ -3,32 +3,32 @@
 <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script>
-    function loadProfiles() {
+    function load_profiles() {
         var bad_profiles = localStorage.bad_profiles;
         return bad_profiles ? JSON.parse(bad_profiles) : [];
     }
 
-    function saveProfiles(profiles) {
+    function save_profiles(profiles) {
         localStorage.bad_profiles = JSON.stringify(profiles);
     }
 
-    function addProfile(value) {
-        var profiles = loadProfiles();
+    function add_profile(value) {
+        var profiles = load_profiles();
         // Check if profile is not already blocked.
         if (profiles.indexOf(value) != -1) {
             return;
         }
         profiles.push(value);
-        saveProfiles(profiles);
-        $("#profiles").append(lineTemplate(value));
+        save_profiles(profiles);
+        $("#profiles").append(line_template(value));
         $("#new_profile").val("").focus();
     }
-    function removeProfile(value) {
-        var profiles = loadProfiles();
+    function remove_profile(value) {
+        var profiles = load_profiles();
         var index = profiles.indexOf(value);
         if (index != -1) {
             profiles.splice(index, 1);
-            saveProfiles(profiles);
+            save_profiles(profiles);
             $("#profiles td").filter(function() {
                 return $(this).text() == value;
             }).parent("tr").remove();
@@ -36,8 +36,8 @@
         }
     }
 
-    function lineTemplate(value) {
-        return "<tr><td>" + value + "</td><td style='text-align:right;'><a onclick='removeProfile(\"" + value + "\")' class='btn small' style='padding-top:2px;padding-bottom:2px;'>Remove</a></td></tr>"
+    function line_template(value) {
+        return "<tr><td>" + value + "</td><td style='text-align:right;'><a onclick='remove_profile(\"" + value + "\")' class='btn small' style='padding-top:2px;padding-bottom:2px;'>Remove</a></td></tr>"
     }
 
     $(document).ready(function() {
@@ -50,10 +50,10 @@
                 return true;
             }
         });
-        var profiles = loadProfiles();
+        var profiles = load_profiles();
         var result = "";
         for (var i = 0; i < profiles.length; i++) {
-            result += lineTemplate(profiles[i]);
+            result += line_template(profiles[i]);
         };
         $("#profiles").append(result);
     });
@@ -64,7 +64,7 @@
     <h2>Perfis bloqueados</h2>
     <input type="text" id="new_profile" style="height:30px;">
     <span class="span1">
-    <a id="add_new_profile" class="btn primary" onclick="javascript:addProfile($('#new_profile').val())">Add</a>
+    <a id="add_new_profile" class="btn primary" onclick="javascript:add_profile($('#new_profile').val())">Add</a>
     </span>
     <table id="profiles" class="zebra-striped condensed-table" style="width:300px">
     </table>
