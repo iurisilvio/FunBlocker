@@ -1,11 +1,30 @@
 <html>
 <head>
 <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+<style>
+    .removebtn {
+        padding: 2px 4px;
+    }
+</style>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script type="text/javascript" src="òptions.js"></script>
+<script type="text/javascript" src="options.js"></script>
 <script>
     function line_template(value) {
-        return "<tr><td>" + value + "</td><td style='text-align:right;'><a onclick='remove_profile(\"" + value + "\")' class='btn small' style='padding-top:2px;padding-bottom:2px;'>Remove</a></td></tr>"
+        return "<tr><td>" + value + "</td><td style='text-align:right;'><a onclick='remove_profile(\"" + value + "\")' class='btn removebtn'>Remove</a></td></tr>"
+    }
+
+    function add_profile(value) {
+        Profile.add(value);
+        $("#profiles").append(line_template(value));
+        $("#new_profile").val("").focus();
+    }
+
+    function remove_profile(value) {
+        Profile.remove(value);
+        $("#profiles td").filter(function() {
+            return $(this).text() == value;
+        }).parent("tr").remove();
+        $("#new_profile").val("").focus();
     }
 
     $(document).ready(function() {
@@ -18,7 +37,7 @@
                 return true;
             }
         });
-        var profiles = load_profiles();
+        var profiles = Profile.load_all();
         var result = "";
         for (var i = 0; i < profiles.length; i++) {
             result += line_template(profiles[i]);
