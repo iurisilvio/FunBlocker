@@ -28,12 +28,7 @@ function remove_story(story) {
 }
 
 function is_bad_profile(profile) {
-    for (var i = 0; i < bad_profiles.length; i++) {
-        if (bad_profiles[i] == profile) {
-            return true;
-        }
-    }
-    return false;
+    return bad_profiles.indexOf(profile) != -1;
 }
 
 function is_bad_story(story) {
