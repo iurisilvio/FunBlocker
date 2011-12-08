@@ -1,14 +1,13 @@
 var bad_profiles = [];
 
-// Request bad profiles to background page.
-chrome.extension.sendRequest({
-    command: "bad_profiles"
-}, function(result) {
+function request_callback(result) {
     bad_profiles = JSON.parse(result);
     for (var i = 0; i < bad_profiles.length; i++) {
         bad_profiles[i] = bad_profiles[i].toLowerCase();
     }
-});
+}
+// Request bad profiles to background page.
+chrome.extension.sendRequest({command: "bad_profiles"}, request_callback);
 
 function get_stories() {
     var content = document.getElementById('contentArea');
