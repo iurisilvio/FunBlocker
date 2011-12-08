@@ -43,4 +43,47 @@ $(document).ready(function(){
         Profile.remove("invalid");
         equal(Profile.load_all().length, 1);
     });
+
+    module("FunBlocker", {
+        setup: function() {
+            Story.counter = 0;
+            bad_profiles = ["a", "bad name"];
+        },
+    });
+    test("Call request callback", function() {
+        request_callback(JSON.stringify(["a", "b", "C"]));
+        deepEqual(bad_profiles, ["a", "b", "c"]);
+    });
+
+    test("Get stories", function() {
+        equal(Story.get_all().length, 4);
+    });
+
+    test("Is bad story", function() {
+        var stories = $(".storyContent");
+        for (var i = 0; i < stories.length; i++) {
+            equal(Story.is_bad(stories[i]), stories.eq(i).hasClass('bad'));
+        }
+    });
+
+    test("Remove a story", function() {
+        var story = $(".storyContent.bad")[0];
+        Story.remove(story);
+        equal(Story.get_all().length, 3);
+    });
+
+    test("Remove bad stories", function() {
+        Story.remove_all(Story.get_all());
+        equal(Story.get_all().length, 2);
+    });
+
+    test("Main handler", function() {
+        Story.handler();
+        equal(Story.counter, 2);
+    });
+
+    test("Main FunBlocker function", function() {
+        funblocker();
+        equal(Story.counter, 2);
+    });
 });

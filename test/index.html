@@ -5,6 +5,7 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <link type="text/css" href="http://code.jquery.com/qunit/git/qunit.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
+    <script type="text/javascript" src="../fb.js"></script>
     <script type="text/javascript" src="../options.js"></script>
     <script type="text/javascript" src="test.js"></script>
     </head>
@@ -18,6 +19,22 @@
             <input type="text" id="new_profile">
             <a id="add_new_profile" onclick="javascript:add_profile($('#new_profile').val())">Add</a>
             <table id="profiles"></table>
+            <div id="contentArea">
+                <ul>
+                    <li><div class="storyContent">
+                        <a href="/ok">Blah</a>
+                    </div></li>
+                    <li><div class="storyContent bad">
+                        <a href="/ok">Bad Name</a>
+                    </div></li>
+                    <li><div class="storyContent">
+                        <a href="/oka">Blah</a>
+                    </div></li>
+                    <li><div class="storyContent bad">
+                        <a href="/a">Blah</a>
+                    </div></li>
+                </ul>
+            </div>
         </div>
     </body>
 </html>

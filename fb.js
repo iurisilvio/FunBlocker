@@ -7,58 +7,63 @@ function request_callback(result) {
     }
 }
 // Request bad profiles to background page.
-chrome.extension.sendRequest({command: "bad_profiles"}, request_callback);
-
-function get_stories() {
-    var content = document.getElementById('contentArea');
-    var stories;
-    if (content) {
-         stories = content.getElementsByClassName('storyContent');
-    }
-    return stories;
+if (chrome.extension) {
+    chrome.extension.sendRequest({command: "bad_profiles"}, request_callback);
 }
 
-function remove_story(story) {
-    var node = story;
-    var parent = node.parentNode;
-    while (parent.tagName != 'UL') {
-        var tmp = parent;
-        parent = parent.parentNode;
-        node = tmp;
-    }
-    parent.removeChild(node);
-}
+var Story = {
 
-function is_bad_profile(profile) {
-    return bad_profiles.indexOf(profile.toLowerCase()) != -1;
-}
+    counter: 0,
 
-function is_bad_story(story) {
-    var links = story.getElementsByTagName('a');
-    for (var i = 0; i < links.length; i++) {
-        var v = links[i].href.split('/');
-        var profile = v[v.length - 1];
-        var name = links[i].innerHTML;
-        if (is_bad_profile(profile) || is_bad_profile(name)) {
-            return true;
+    get_all: function() {
+        var content = document.getElementById('contentArea');
+        return content ? content.getElementsByClassName('storyContent') : [];
+    },
+
+    is_bad: function(story) {
+        var is_bad_profile = function(profile) {
+            return bad_profiles.indexOf(profile.toLowerCase()) != -1;
+        };
+        var links = story.getElementsByTagName('a');
+        for (var i = 0; i < links.length; i++) {
+            var v = links[i].href.split('/');
+            var profile = v[v.length - 1];
+            var name = links[i].innerHTML;
+            if (is_bad_profile(profile) || is_bad_profile(name)) {
+                return true;
+            }
+        }
+        return false;
+    },
+
+    remove: function(story) {
+        var node = story;
+        var parent = node.parentNode;
+        while (parent.tagName != 'UL') {
+            var tmp = parent;
+            parent = parent.parentNode;
+            node = tmp;
+        }
+        parent.removeChild(node);
+    },
+
+    remove_all: function(stories) {
+        for (var i = 0; i < stories.length; i++) {
+            if (this.is_bad(stories[i])) {
+                Story.remove(stories[i]);
+            }
+        }
+    },
+
+    handler: function() {
+        var stories = this.get_all();
+        if (stories && stories.length != this.counter) {
+            this.remove_all(stories);
+            this.counter = this.get_all().length;
         }
     }
-    return false;
-}
+};
 
-function remove_bad_stories(stories) {
-    for (var i = 0; i < stories.length; i++) {
-        if (is_bad_story(stories[i])) {
-            remove_story(stories[i]);
-        }
-    }
-}
-
-var counter = 0;
-function main() {
-    var stories = get_stories();
-    if (stories && stories.length != counter) {
-        counter = stories.length;
-        remove_bad_stories(stories);
-    }
+function funblocker() {
+    Story.handler();
 }
