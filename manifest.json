@@ -12,7 +12,10 @@
     }
   ],
   "permissions": [
+    "tabs",
     "http://www.facebook.com/*",
     "https://www.facebook.com/*"
-  ]
+  ],
+  "background_page": "background.html",
+  "options_page": "options.html"
 }

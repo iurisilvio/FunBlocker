@@ -1,0 +1,31 @@
+<html>
+<head>
+    <script>
+    var default_config = {
+        bad_profiles: [
+            'PiadasFail', 'HumorNoFace', 'JoSuado',
+            'JoSuadoNoFace', 'paniconainternet', 'OMelhorPanico',
+            'trustmestore', 'Humormetal', 'Humordido',
+            'JoSuadoPanico', 'EngenhariaFacts', 'MelhorDoMelhor'
+        ]
+    }
+    // Store a default value for bad_profiles.
+    if (localStorage.bad_profiles == undefined) {
+        localStorage.bad_profiles = JSON.stringify(default_config.bad_profiles);
+    }
+    setInterval(function() {
+        chrome.tabs.getSelected(null, function(tab) {
+            if (tab.url.indexOf("facebook") != -1) {
+                chrome.tabs.executeScript(null, {code: "main()"});
+            }
+        })
+    }, 1000);
+    chrome.extension.onRequest.addListener(function(request, sender, callback) {
+        if (request.command == "bad_profiles") {
+            callback(localStorage.bad_profiles);
+        }
+    });
+    </script>
+</head>
+<body></body>
+</html>

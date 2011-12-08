@@ -1,16 +1,11 @@
-var default_config = {
-    bad_profiles: [
-        'PiadasFail', 'HumorNoFace', 'JoSuado',
-        'JoSuadoNoFace', 'paniconainternet', 'OMelhorPanico',
-        'trustmestore', 'Humormetal', 'Humordido',
-        'JoSuadoPanico', 'EngenhariaFacts'
-    ]
-}
+var bad_profiles = [];
 
-// Store a default value for bad_profiles.
-if (localStorage.bad_profiles == undefined) {
-    localStorage.bad_profiles = default_config.bad_profiles;
-}
+// Request bad profiles to background page.
+chrome.extension.sendRequest({
+    command: "bad_profiles"
+}, function(result) {
+    bad_profiles = JSON.parse(result);
+});
 
 function get_stories() {
     var content = document.getElementById('contentArea');
@@ -33,7 +28,6 @@ function remove_story(story) {
 }
 
 function is_bad_profile(profile) {
-    var bad_profiles = localStorage.bad_profiles || [];
     for (var i = 0; i < bad_profiles.length; i++) {
         if (bad_profiles[i] == profile) {
             return true;
@@ -54,7 +48,7 @@ function is_bad_story(story) {
     return false;
 }
 
-function callback(stories) {
+function remove_bad_stories(stories) {
     for (var i = 0; i < stories.length; i++) {
         if (is_bad_story(stories[i])) {
             remove_story(stories[i]);
@@ -63,11 +57,10 @@ function callback(stories) {
 }
 
 var counter = 0;
-
-setInterval(function listener() {
+function main() {
     var stories = get_stories();
     if (stories && stories.length != counter) {
         counter = stories.length;
-        callback(stories);
+        remove_bad_stories(stories);
     }
-}, 1000);
+}

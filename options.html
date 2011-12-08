@@ -1,0 +1,64 @@
+<html>
+<head>
+<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>
+    function addProfile(value) {
+        var profiles = localStorage.bad_profiles ? JSON.parse(localStorage.bad_profiles) : [];
+        // Check if profile is not already blocked.
+        if (profiles.indexOf(value) != -1) {
+            return;
+        }
+        profiles.push(value);
+        localStorage.bad_profiles = JSON.stringify(profiles);
+        $("#profiles").append(lineTemplate(value));
+        $("#new_profile").val("").focus();
+    }
+    function removeProfile(value) {
+        var profiles = JSON.parse(localStorage.bad_profiles);
+        var index = profiles.indexOf(value);
+        if (index != -1) {
+            profiles.splice(index, 1);
+            localStorage.bad_profiles = JSON.stringify(profiles);
+            $("#profiles td").filter(function() {
+                return $(this).text() == value;
+            }).parent("tr").remove();
+            $("#new_profile").val("").focus();
+        }
+    }
+
+    function lineTemplate(value) {
+        return "<tr><td>" + value + "</td><td style='text-align:right;'><a onclick='removeProfile(\"" + value + "\")' class='btn small' style='padding-top:2px;padding-bottom:2px;'>Remove</a></td></tr>"
+    }
+
+    $(document).ready(function() {
+        $("#new_profile").keypress(function(e) {
+            if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+                $("#add_new_profile").click();
+                return false;
+            }
+            else {
+                return true;
+            }
+        })
+    });
+</script>
+</head>
+<body>
+    <h1>FunBlocker</h1>
+    <h2>Perfis bloqueados</h2>
+    <input type="text" id="new_profile" style="height:30px;">
+    <span class="span1">
+    <a id="add_new_profile" class="btn primary" onclick="javascript:addProfile($('#new_profile').val())">Add</a>
+    </span>
+    <table id="profiles" class="zebra-striped condensed-table" style="width:300px">
+    </table>
+
+<script>
+var profiles = localStorage.bad_profiles ? JSON.parse(localStorage.bad_profiles) : [];
+var s = ""
+for (var i = 0; i < profiles.length; i++) { s += lineTemplate(profiles[i]); };
+$("#profiles").append(s);
+</script>
+</body>
+</html>
