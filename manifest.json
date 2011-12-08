@@ -1,6 +1,6 @@
 {
   "name": "FunBlocker",
-  "version": "0.1",
+  "version": "0.2",
   "description": "FunBlocker is a script to remove annoying posts in Facebook, mainly funny [re]posts.",
   "content_scripts": [
     {
