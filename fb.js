@@ -5,6 +5,9 @@ chrome.extension.sendRequest({
     command: "bad_profiles"
 }, function(result) {
     bad_profiles = JSON.parse(result);
+    for (var i = 0; i < bad_profiles.length; i++) {
+        bad_profiles[i] = bad_profiles[i].toLowerCase();
+    }
 });
 
 function get_stories() {
@@ -28,7 +31,7 @@ function remove_story(story) {
 }
 
 function is_bad_profile(profile) {
-    return bad_profiles.indexOf(profile) != -1;
+    return bad_profiles.indexOf(profile.toLowerCase()) != -1;
 }
 
 function is_bad_story(story) {
@@ -36,7 +39,8 @@ function is_bad_story(story) {
     for (var i = 0; i < links.length; i++) {
         var v = links[i].href.split('/');
         var profile = v[v.length - 1];
-        if (is_bad_profile(profile)) {
+        var name = links[i].innerHTML;
+        if (is_bad_profile(profile) || is_bad_profile(name)) {
             return true;
         }
     }
