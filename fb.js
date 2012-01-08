@@ -27,7 +27,7 @@ var Story = {
     is_bad: function(story) {
         var is_bad_link = function(link) {
             var name = link.innerHTML.toLowerCase();
-            var url = link.href;
+            var url = link.href.toLowerCase();
 
             for (var i = 0; i < bad_profiles.length; i++) {
                 var profile = bad_profiles[i];
