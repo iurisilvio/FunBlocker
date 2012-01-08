@@ -47,16 +47,16 @@ $(document).ready(function(){
     module("FunBlocker", {
         setup: function() {
             Story.counter = 0;
-            bad_profiles = ["a", "bad name"];
+            bad_profiles = ["bad name", "bad_link"]
         },
     });
     test("Call request callback", function() {
-        request_callback(JSON.stringify(["a", "b", "C"]));
-        deepEqual(bad_profiles, ["a", "b", "c"]);
+        var result = request_callback(JSON.stringify(["a", "b", "C"]));
+        deepEqual(result, ["a", "b", "c"]);
     });
 
     test("Get stories", function() {
-        equal(Story.get_all().length, 4);
+        equal(Story.get_all().length, 5);
     });
 
     test("Is bad story", function() {
@@ -69,21 +69,21 @@ $(document).ready(function(){
     test("Remove a story", function() {
         var story = $(".storyContent.bad")[0];
         Story.remove(story);
-        equal(Story.get_all().length, 3);
+        equal(Story.get_all().length, 4);
     });
 
     test("Remove bad stories", function() {
         Story.remove_all(Story.get_all());
-        equal(Story.get_all().length, 2);
+        equal(Story.get_all().length, 3);
     });
 
     test("Main handler", function() {
         Story.handler();
-        equal(Story.counter, 2);
+        equal(Story.counter, 3);
     });
 
     test("Main FunBlocker function", function() {
         funblocker();
-        equal(Story.counter, 2);
+        equal(Story.counter, 3);
     });
 });

@@ -1,14 +1,18 @@
 var bad_profiles = [];
 
-function request_callback(result) {
-    bad_profiles = JSON.parse(result);
-    for (var i = 0; i < bad_profiles.length; i++) {
-        bad_profiles[i] = bad_profiles[i].toLowerCase();
+function request_callback(json_result) {
+    var result = JSON.parse(json_result);
+    for (var i = 0; i < result.length; i++) {
+        result[i] = result[i].toLowerCase();
     }
+    return result;
 }
-// Request bad profiles to background page.
+
+// Request configuration data to background page.
 if (chrome.extension) {
-    chrome.extension.sendRequest({command: "bad_profiles"}, request_callback);
+    chrome.extension.sendRequest({command: "bad_profiles"}, function(result) {
+        bad_profiles = request_callback(result);
+    });
 }
 
 var Story = {
@@ -21,15 +25,22 @@ var Story = {
     },
 
     is_bad: function(story) {
-        var is_bad_profile = function(profile) {
-            return bad_profiles.indexOf(profile.toLowerCase()) != -1;
+        var is_bad_link = function(link) {
+            console.log(link.href)
+            var name = link.innerHTML.toLowerCase();
+            var url = link.href;
+
+            for (var i = 0; i < bad_profiles.length; i++) {
+                var profile = bad_profiles[i];
+                if (name == profile || url.indexOf(profile) != -1) {
+                    return true;
+                }
+            }
+            return false;
         };
         var links = story.getElementsByTagName('a');
         for (var i = 0; i < links.length; i++) {
-            var v = links[i].href.split('/');
-            var profile = v[v.length - 1];
-            var name = links[i].innerHTML;
-            if (is_bad_profile(profile) || is_bad_profile(name)) {
+            if (is_bad_link(links[i])) {
                 return true;
             }
         }
