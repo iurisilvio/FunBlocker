@@ -26,7 +26,6 @@ var Story = {
 
     is_bad: function(story) {
         var is_bad_link = function(link) {
-            console.log(link.href)
             var name = link.innerHTML.toLowerCase();
             var url = link.href;
 
