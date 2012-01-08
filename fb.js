@@ -57,7 +57,7 @@ var Story = {
 
     handler: function() {
         var stories = this.get_all();
-        if (stories && stories.length != this.counter) {
+        if (stories) {
             this.remove_all(stories);
             this.counter = this.get_all().length;
         }
