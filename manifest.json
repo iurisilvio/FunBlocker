@@ -1,7 +1,7 @@
 {
   "name": "FunBlocker",
-  "version": "0.2",
-  "description": "FunBlocker is a script to remove annoying posts in Facebook, mainly funny [re]posts.",
+  "version": "0.3",
+  "description": "FunBlocker is a script to remove annoying posts in Facebook, mainly funny [re]posts. You can change what this extension blocks in plugin options. If the string is in a post link, this post is removed. Just add 9gag.com to don't see anything from 9gag anymore.",
   "content_scripts": [
     {
         "matches": [
