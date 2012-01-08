@@ -15,7 +15,7 @@
     }
     setInterval(function() {
         chrome.tabs.getSelected(null, function(tab) {
-            if (tab.url.indexOf("facebook") != -1) {
+            if (tab.url.indexOf("www.facebook.com") != -1) {
                 chrome.tabs.executeScript(null, {code: "funblocker()"});
             }
         })
