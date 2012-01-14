@@ -37,7 +37,18 @@ var Story = {
             }
             return false;
         };
-        var links = story.getElementsByTagName('a');
+        var get_links = function(element) {
+            var links = element && element.getElementsByTagName('a') || [];
+            var result = [];
+            var len = links.length;
+            for (var i = 0; i < len; i++) {
+                result.push(links[i]);
+            }
+            return result;
+        }
+        var messageBody = get_links(story.getElementsByClassName("messageBody")[0]);
+        var attachments = get_links(story.getElementsByClassName("uiStreamAttachments")[0]);
+        var links = messageBody.concat(attachments);
         for (var i = 0; i < links.length; i++) {
             if (is_bad_link(links[i])) {
                 return true;
