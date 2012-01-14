@@ -1,7 +1,7 @@
 {
   "name": "FunBlocker",
-  "version": "0.3",
-  "description": "FunBlocker is a script to remove annoying posts in Facebook, mainly funny [re]posts.",
+  "version": "0.4",
+  "description": "FunBlocker é uma extensão para remover posts chatos do Facebook, como HumorNoFace, JoSuado e outros.'.",
   "content_scripts": [
     {
         "matches": [
