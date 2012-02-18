@@ -58,14 +58,16 @@ var Story = {
     },
 
     remove: function(story) {
-        var node = story;
-        var parent = node.parentNode;
-        while (parent.tagName != 'UL') {
-            var tmp = parent;
-            parent = parent.parentNode;
-            node = tmp;
+        if (!Story.try_default_hide(story)) {
+            var node = story;
+            var parent = node.parentNode;
+            while (parent.tagName != 'UL') {
+                var tmp = parent;
+                parent = parent.parentNode;
+                node = tmp;
+            }
+            parent.removeChild(node);
         }
-        parent.removeChild(node);
     },
 
     remove_all: function(stories) {
@@ -82,6 +84,23 @@ var Story = {
             this.remove_all(stories);
             this.counter = this.get_all().length;
         }
+    },
+
+    try_default_hide: function (story) {
+        var items = story.getElementsByTagName("li");
+        for (var i = 0; i < items.length; i++) {
+            var data_label = items[i].getAttribute("data-label");
+            if (data_label && data_label.toLowerCase() == "hide story") {
+                var event_ = document.createEvent("MouseEvents");
+                event_.initEvent("click", true, true); // event type, bubbling, cancelable
+                var element = items[i].getElementsByTagName("a")[0];
+                if (element) {
+                    element.dispatchEvent(event_);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 };
 

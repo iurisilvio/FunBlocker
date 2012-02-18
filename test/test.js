@@ -67,7 +67,11 @@ $(document).ready(function(){
     });
 
     test("Remove a story", function() {
+        $("li[data-label='Hide story'] a").click(function() {
+            $(this).parents(".storyContent").remove();
+        });
         var story = $(".storyContent.bad")[0];
+
         Story.remove(story);
         equal(Story.get_all().length, 4);
     });
@@ -85,5 +89,11 @@ $(document).ready(function(){
     test("Main FunBlocker function", function() {
         funblocker();
         equal(Story.counter, 3);
+    });
+
+    test("Try hide story link", function() {
+        var stories = $(".storyContent");
+        ok(Story.try_default_hide(stories[1]));
+        ok(!Story.try_default_hide(stories[2]));
     });
 });
