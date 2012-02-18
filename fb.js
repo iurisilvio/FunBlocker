@@ -9,11 +9,15 @@ function request_callback(json_result) {
 }
 
 // Request configuration data to background page.
-if (chrome.extension) {
-    chrome.extension.sendRequest({command: "bad_profiles"}, function(result) {
-        bad_profiles = request_callback(result);
-    });
+function update_data() {
+    if (chrome.extension) {
+        chrome.extension.sendRequest({command: "bad_profiles"}, function(result) {
+            bad_profiles = request_callback(result);
+        });
+    }
 }
+
+update_data();
 
 var Story = {
 

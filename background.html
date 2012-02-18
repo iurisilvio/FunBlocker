@@ -14,12 +14,22 @@
     if (localStorage.bad_profiles == undefined) {
         localStorage.bad_profiles = JSON.stringify(default_config.bad_profiles);
     }
-    setInterval(function() {
+
+    function executeScript(code) {
         chrome.tabs.getSelected(null, function(tab) {
             if (tab.url.indexOf("www.facebook.com") != -1) {
-                chrome.tabs.executeScript(null, {code: "funblocker()"});
+                chrome.tabs.executeScript(null, {code: code});
             }
-        })
+        });
+    }
+
+    var _data;
+    setInterval(function() {
+        if (_data != localStorage.bad_profiles) {
+            _data = localStorage.bad_profiles;
+            executeScript("update_data()");
+        }
+        executeScript("funblocker()");
     }, 1000);
     chrome.extension.onRequest.addListener(function(request, sender, callback) {
         if (request.command == "bad_profiles") {
@@ -37,7 +47,7 @@
             if (word) {
                 var bad_profiles = localStorage.bad_profiles ? JSON.parse(localStorage.bad_profiles) : undefined;
                 bad_profiles.push(word);
-                localStorage[key] = JSON.stringify(value);
+                localStorage.bad_profiles = JSON.stringify(bad_profiles);
             }
         },
         "documentUrlPatterns": ["*://www.facebook.com/*"]
