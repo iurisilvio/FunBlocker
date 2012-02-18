@@ -37,7 +37,7 @@
         }
     });
 
-    var id = chrome.contextMenus.create({
+    chrome.contextMenus.create({
         "title": "FunBlocker this",
         "contexts": ["link", "selection"],
         "onclick": function(info, tabs) {
