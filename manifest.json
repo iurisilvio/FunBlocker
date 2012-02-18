@@ -12,10 +12,14 @@
     }
   ],
   "permissions": [
+    "contextMenus",
     "tabs",
     "http://www.facebook.com/*",
     "https://www.facebook.com/*"
   ],
+  "icons" : {
+    "16" : "icon-16.png"
+  },
   "background_page": "background.html",
   "options_page": "options.html"
 }
