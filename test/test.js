@@ -13,13 +13,13 @@ $(document).ready(function(){
     });
 
     test("Database get item.", function() {
-        equals(db.get("a"), "s");
-        equals(db.get("invalid_key"), undefined);
+        equal(db.get("a"), "s");
+        equal(db.get("invalid_key"), undefined);
     });
 
     test("Database set item.", function() {
         db.set("dummy", 1);
-        equals(db.get("dummy"), 1);
+        equal(db.get("dummy"), 1);
     });
 
     test("Load all profiles.", function() {
