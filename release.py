@@ -7,7 +7,8 @@ FILES = ["manifest.json",
          "fb.js",
          "options.js",
          "background.html",
-         "options.html"]
+         "options.html",
+         "icon-16.png"]
 
 RELEASE_DIR = "release"
 
