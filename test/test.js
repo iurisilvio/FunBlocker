@@ -46,7 +46,6 @@ $(document).ready(function(){
 
     module("FunBlocker", {
         setup: function() {
-            Story.counter = 0;
             bad_profiles = ["bad name", "bad_link"]
         },
     });
@@ -83,12 +82,10 @@ $(document).ready(function(){
 
     test("Main handler", function() {
         Story.handler();
-        equal(Story.counter, 3);
     });
 
     test("Main FunBlocker function", function() {
         funblocker();
-        equal(Story.counter, 3);
     });
 
     test("Try hide story link", function() {
