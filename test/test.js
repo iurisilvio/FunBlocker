@@ -54,6 +54,17 @@ $(document).ready(function(){
         deepEqual(result, ["a", "b", "c"]);
     });
 
+    test("Update data function", 2, function() {
+        chrome.extension = {
+            sendRequest: function(data, callback) {
+                equal(data.command, "bad_profiles");
+                callback(JSON.stringify(["a"]));
+            }
+        }
+        update_data();
+        deepEqual(bad_profiles, ["a"])
+    });
+
     test("Get stories", function() {
         equal(Story.get_all().length, 5);
         equal(Story.get_all(true).length, 5);
