@@ -56,6 +56,10 @@ $(document).ready(function(){
 
     test("Get stories", function() {
         equal(Story.get_all().length, 5);
+        equal(Story.get_all(true).length, 5);
+        $(".bad").parent().hide();
+        equal(Story.get_all().length, 2);
+        equal(Story.get_all(true).length, 5);
     });
 
     test("Is bad story", function() {
@@ -77,7 +81,7 @@ $(document).ready(function(){
 
     test("Remove bad stories", function() {
         Story.remove_all(Story.get_all());
-        equal(Story.get_all().length, 3);
+        equal(Story.get_all().length, 2);
     });
 
     test("Main handler", function() {
@@ -92,5 +96,40 @@ $(document).ready(function(){
         var stories = $(".storyContent");
         ok(Story.try_default_hide(stories[1]));
         ok(!Story.try_default_hide(stories[2]));
+    });
+
+    test("Get story wrapper", function() {
+        var stories = $(".storyContent");
+        stories.each(function(index, element) {
+            equal(Story.get_story_wrapper(this).tagName, "LI");
+        });
+    });
+
+    asyncTest("Try default hide only one time", 1, function() {
+        var stories = $(".storyContent");
+        var story = stories[1];
+        $(story).find("li[data-label='Hide story'] a")
+            .click(function() {
+                setTimeout(function() {
+                    $(this).parents(".storyContent").remove();
+                    ok(true);
+                }, 100);
+            });
+        Story.remove(story);
+        Story.remove(story);
+        setTimeout(start, 200);
+    });
+    stop();
+
+    test("Try default hide even after FunBlocker hide", 1, function() {
+        var stories = $(".storyContent");
+        var story = stories[1];
+        var wrap = $(story).find(".wrap").detach();
+        Story.remove(story);
+        $(story).prepend(wrap);
+        wrap.find("a").click(function() {
+            ok(true);
+        });
+        Story.remove(story);
     });
 });

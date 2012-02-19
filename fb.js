@@ -21,9 +21,19 @@ update_data();
 
 var Story = {
 
-    get_all: function() {
+    get_all: function(show_hidden) {
         var content = document.getElementById('contentArea');
-        return content ? content.getElementsByClassName('storyContent') : [];
+        var all_stories = content ? content.getElementsByClassName('storyContent') : [];
+        if (!show_hidden) {
+            var visible_stories = [];
+            for (var i = 0; i < all_stories.length; i++) {
+                if (Story.get_story_wrapper(all_stories[i]).style.display != "none") {
+                    visible_stories.push(all_stories[i]);
+                }
+            }
+            return visible_stories;
+        }
+        return all_stories;
     },
 
     is_bad: function(story) {
@@ -60,16 +70,9 @@ var Story = {
     },
 
     remove: function(story) {
-        if (!Story.try_default_hide(story)) {
-            var node = story;
-            var parent = node.parentNode;
-            while (parent.tagName != 'UL') {
-                var tmp = parent;
-                parent = parent.parentNode;
-                node = tmp;
-            }
-            parent.removeChild(node);
-        }
+        var wrapper = Story.get_story_wrapper(story);
+        wrapper.style.display = "none";
+        Story.try_default_hide(story);
     },
 
     remove_all: function(stories) {
@@ -81,27 +84,46 @@ var Story = {
     },
 
     handler: function() {
-        var stories = this.get_all();
+        var stories = this.get_all(true);
         if (stories) {
             this.remove_all(stories);
         }
     },
 
-    try_default_hide: function (story) {
+    try_default_hide: function(story) {
+        if (story._funblocker_clicked) {
+            return true;
+        }
         var items = story.getElementsByTagName("li");
         for (var i = 0; i < items.length; i++) {
             var data_label = items[i].getAttribute("data-label");
             if (data_label && data_label.toLowerCase() == "hide story") {
                 var event_ = document.createEvent("MouseEvents");
                 event_.initEvent("click", true, true); // event type, bubbling, cancelable
+
                 var element = items[i].getElementsByTagName("a")[0];
                 if (element) {
                     element.dispatchEvent(event_);
+                    story._funblocker_clicked = true;
                     return true;
+                }
+                else {
+                    break;
                 }
             }
         }
         return false;
+    },
+
+    get_story_wrapper: function(story) {
+        var node = story;
+        var parent = node.parentNode;
+        while (parent && parent.tagName != 'UL') {
+            var tmp = parent;
+            parent = parent.parentNode;
+            node = tmp;
+        }
+        return node;
     }
 };
 
