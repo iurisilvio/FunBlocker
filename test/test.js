@@ -46,8 +46,8 @@ $(document).ready(function(){
 
     module("FunBlocker", {
         setup: function() {
-            bad_profiles = ["bad name", "bad_link"]
-        },
+            bad_profiles = ["bad name", "bad_link"];
+        }
     });
     test("Call request callback", function() {
         var result = request_callback(JSON.stringify(["a", "b", "C"]));
