@@ -95,11 +95,11 @@ $(document).ready(function(){
         equal(Story.get_all().length, 2);
     });
 
-    test("Main handler", function() {
+    test("Main handler", 0, function() {
         Story.handler();
     });
 
-    test("Main FunBlocker function", function() {
+    test("Main FunBlocker function", 0, function() {
         funblocker();
     });
 
