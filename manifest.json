@@ -1,6 +1,6 @@
 {
   "name": "FunBlocker",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "FunBlocker é uma extensão para remover posts chatos do Facebook, como HumorNoFace, JoSuado e outros.",
   "content_scripts": [
     {
