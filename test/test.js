@@ -44,9 +44,17 @@ $(document).ready(function(){
         equal(Profile.load_all().length, 1);
     });
 
+    var XMLHttpRequest_original = XMLHttpRequest.prototype.send;
+
     module("FunBlocker", {
         setup: function() {
+            XMLHttpRequest.prototype.send = function(params) {
+                setTimeout(this.onreadystatechange, 5); // async-ish
+            }
             bad_profiles = ["bad name", "bad_link"];
+        },
+        teardown: function() {
+            XMLHttpRequest.prototype.send = XMLHttpRequest_original;
         }
     });
     test("Call request callback", function() {
@@ -116,31 +124,13 @@ $(document).ready(function(){
         });
     });
 
-    asyncTest("Try default hide only one time", 1, function() {
-        var stories = $(".storyContent");
-        var story = stories[1];
-        $(story).find("li[data-label='Hide story'] a")
-            .click(function() {
-                setTimeout(function() {
-                    $(this).parents(".storyContent").remove();
-                    ok(true);
-                }, 100);
-            });
-        Story.remove(story);
-        Story.remove(story);
-        setTimeout(start, 200);
-    });
-    stop();
-
-    test("Try default hide even after FunBlocker hide", 1, function() {
-        var stories = $(".storyContent");
-        var story = stories[1];
-        var wrap = $(story).find(".wrap").detach();
-        Story.remove(story);
-        $(story).prepend(wrap);
-        wrap.find("a").click(function() {
+    test("Try default hide only one time", 1, function() {
+        XMLHttpRequest.prototype.send = function(params) {
             ok(true);
-        });
+        };
+        var stories = $(".storyContent");
+        var story = stories[1];
+        Story.remove(story);
         Story.remove(story);
     });
 });
