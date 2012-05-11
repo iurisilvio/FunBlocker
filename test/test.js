@@ -51,6 +51,7 @@ $(document).ready(function(){
             bad_profiles = ["bad name", "bad_link"];
         },
         teardown: function() {
+            XMLHttpRequest.prototype.send = XMLHttpRequest_original;
             chrome.extension = undefined;
         }
     });
@@ -65,7 +66,7 @@ $(document).ready(function(){
                 equal(data.command, "bad_profiles");
                 callback(JSON.stringify(["a"]));
             }
-        }
+        };
         update_data();
         deepEqual(bad_profiles, ["a"])
     });
