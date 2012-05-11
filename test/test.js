@@ -48,13 +48,10 @@ $(document).ready(function(){
 
     module("FunBlocker", {
         setup: function() {
-            XMLHttpRequest.prototype.send = function(params) {
-                setTimeout(this.onreadystatechange, 5); // async-ish
-            }
             bad_profiles = ["bad name", "bad_link"];
         },
         teardown: function() {
-            XMLHttpRequest.prototype.send = XMLHttpRequest_original;
+            chrome.extension = undefined;
         }
     });
     test("Call request callback", function() {
@@ -88,12 +85,8 @@ $(document).ready(function(){
         }
     });
 
-    test("Remove a story", function() {
-        $("li[data-label='Hide story'] a").click(function() {
-            $(this).parents(".storyContent").remove();
-        });
+    test("Remove a story", 1, function() {
         var story = $(".storyContent.bad")[0];
-
         Story.remove(story);
         equal(Story.get_all().length, 4);
     });
@@ -101,6 +94,16 @@ $(document).ready(function(){
     test("Remove bad stories", function() {
         Story.remove_all(Story.get_all());
         equal(Story.get_all().length, 2);
+    });
+
+    test("Remove story callback", 2, function() {
+        chrome.extension = {
+            sendRequest: function(data, callback) {
+                equal(data.command, "counter_inc");
+                ok(callback === undefined);
+            }
+        };
+        Story.remove_callback();
     });
 
     test("Main handler", 0, function() {

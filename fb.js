@@ -106,7 +106,9 @@ var Story = {
     },
 
     remove_callback: function(data) {
-        // for now, do nothing
+        if (chrome.extension) {
+            chrome.extension.sendRequest({command: "counter_inc"});
+        }
     },
 
     handler: function() {

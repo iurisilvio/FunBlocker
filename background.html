@@ -35,6 +35,12 @@
         if (request.command == "bad_profiles") {
             callback(localStorage.bad_profiles);
         }
+        else if (request.command == "counter_inc") {
+            if (!localStorage.funblocker_counter) {
+                localStorage.funblocker_counter = 0;
+            }
+            localStorage.funblocker_counter++;
+        }
     });
 
     chrome.contextMenus.create({
