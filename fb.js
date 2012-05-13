@@ -94,6 +94,9 @@ var Story = {
     remove: function(story) {
         var wrapper = Story.get_story_wrapper(story);
         wrapper.style.display = "none";
+        if (chrome.extension) {
+            chrome.extension.sendRequest({command: "inc_plugin"});
+        }
         Story.try_default_hide(story);
     },
 
@@ -107,7 +110,7 @@ var Story = {
 
     remove_callback: function(data) {
         if (chrome.extension) {
-            chrome.extension.sendRequest({command: "counter_inc"});
+            chrome.extension.sendRequest({command: "inc_fb"});
         }
     },
 

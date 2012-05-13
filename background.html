@@ -15,6 +15,11 @@
         localStorage.bad_profiles = JSON.stringify(default_config.bad_profiles);
     }
 
+    if (localStorage.since == undefined) {
+        var d = new Date();
+        localStorage.since = [d.getDate(), d.getMonth(), d.getFullYear()].join("/");
+    }
+
     function executeScript(code) {
         chrome.tabs.getSelected(null, function(tab) {
             if (tab && tab.url && tab.url.indexOf("www.facebook.com") != -1) {
@@ -35,11 +40,17 @@
         if (request.command == "bad_profiles") {
             callback(localStorage.bad_profiles);
         }
-        else if (request.command == "counter_inc") {
-            if (!localStorage.funblocker_counter) {
-                localStorage.funblocker_counter = 0;
+        else if (request.command == "inc_plugin") {
+            if (!localStorage.plugin_counter) {
+                localStorage.plugin_counter = 0;
             }
-            localStorage.funblocker_counter++;
+            localStorage.plugin_counter++;
+        }
+        else if (request.command == "inc_fb") {
+            if (!localStorage.fb_counter) {
+                localStorage.fb_counter = 0;
+            }
+            localStorage.fb_counter++;
         }
     });
 

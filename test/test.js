@@ -86,7 +86,13 @@ $(document).ready(function(){
         }
     });
 
-    test("Remove a story", 1, function() {
+    test("Remove a story", 3, function() {
+        chrome.extension = {
+            sendRequest: function(data, callback) {
+                equal(data.command, "inc_plugin");
+                ok(callback === undefined);
+            }
+        };
         var story = $(".storyContent.bad")[0];
         Story.remove(story);
         equal(Story.get_all().length, 4);
@@ -100,7 +106,7 @@ $(document).ready(function(){
     test("Remove story callback", 2, function() {
         chrome.extension = {
             sendRequest: function(data, callback) {
-                equal(data.command, "counter_inc");
+                equal(data.command, "inc_fb");
                 ok(callback === undefined);
             }
         };

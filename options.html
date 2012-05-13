@@ -1,5 +1,7 @@
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>FunBlocker options</title>
 <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
 <style>
     .removebtn {
@@ -24,7 +26,6 @@
         $("#profiles td").filter(function() {
             return $(this).text() == value;
         }).parent("tr").remove();
-        $("#new_profile").val("").focus();
     }
 
     $(document).ready(function() {
@@ -43,12 +44,23 @@
             result += line_template(profiles[i]);
         };
         $("#profiles").append(result);
+
+        $("#plugin_removed").html(localStorage.plugin_counter || 0);
+        $("#fb_removed").html(localStorage.fb_counter || 0);
+        $("#words").html(JSON.parse(localStorage.bad_profiles).length);
+        $("#since").html(localStorage.since);
     });
 </script>
 </head>
 <body>
     <h1>FunBlocker</h1>
-    <h2>Perfis bloqueados</h2>
+    <div id="stats">
+        Dados desde: <span id="since"></span><br />
+        Posts removidos pelo FunBlocker: <span id="plugin_removed"></span><br />
+        Posts removidos pelo Facebook: <span title="O FunBlocker além de remover o post também deu 'Hide Story'." id="fb_removed"></span><br />
+        Palavras adicionadas: <span id="words"></span><br />
+        &nbsp;
+    </div>
     <input type="text" id="new_profile" style="height:30px;">
     <span>
     <a id="add_new_profile" class="btn primary" onclick="javascript:add_profile($('#new_profile').val())">Add</a>
