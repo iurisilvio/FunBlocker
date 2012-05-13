@@ -10,7 +10,7 @@
 <script type="text/javascript" src="options.js"></script>
 <script>
     function line_template(value) {
-        return "<tr><td>" + value + "</td><td style='text-align:right;'><a onclick='remove_profile(\"" + value + "\")' class='btn removebtn'>Remove</a></td></tr>"
+        return "<tr><td>" + value + "</td><td style='text-align:right;'><a onclick='remove_profile(\"" + value.replace("\\", "\\\\") + "\")' class='btn removebtn'>Remove</a></td></tr>"
     }
 
     function add_profile(value) {
