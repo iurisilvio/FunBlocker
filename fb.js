@@ -92,6 +92,11 @@ var Story = {
     },
 
     remove: function(story) {
+        if (story._funblocker_tried_hide) {
+            return true;
+        }
+        story._funblocker_tried_hide = true;
+
         var wrapper = Story.get_story_wrapper(story);
         wrapper.style.display = "none";
         if (chrome.extension) {
@@ -122,10 +127,6 @@ var Story = {
     },
 
     try_default_hide: function(story) {
-        if (story._funblocker_tried_hide) {
-            return true;
-        }
-        story._funblocker_tried_hide = true;
         var dtsg,
             actor_id, story_fbid, content_timestamp,
             qid, mf_story_key,
