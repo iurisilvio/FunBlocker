@@ -58,9 +58,10 @@
         "title": "FunBlocker this",
         "contexts": ["link", "selection"],
         "onclick": function(info, tabs) {
-            var data = (info.selectionText || info.linkUrl).split("/");
-            var tip = data[data.length - 1];
-            var word = prompt("Adicione essa palavra no FunBlocker", tip);
+            var text = (info.selectionText || info.linkUrl),
+                data = text.split("/"),
+                tip = data[data.length - (text[text.length - 1] == "/" ? 2 : 1)],
+                word = prompt("Adicione essa palavra no FunBlocker", tip);
             if (word) {
                 var bad_profiles = localStorage.bad_profiles ? JSON.parse(localStorage.bad_profiles) : undefined;
                 bad_profiles.push(word);
