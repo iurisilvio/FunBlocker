@@ -15,6 +15,13 @@
         localStorage.bad_profiles = JSON.stringify(default_config.bad_profiles);
     }
 
+    if (!localStorage._counter_bug) {
+        if (parseInt(localStorage.plugin_counter) > parseInt(localStorage.fb_counter)) {
+            localStorage.plugin_counter = parseInt(localStorage.fb_counter);
+        }
+        localStorage._counter_bug = "DONTPANIC!";
+    }
+
     if (localStorage.since == undefined) {
         var d = new Date();
         localStorage.since = [d.getDate(), d.getMonth(), d.getFullYear()].join("/");
