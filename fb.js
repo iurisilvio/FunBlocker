@@ -79,16 +79,20 @@ var Story = {
                 result.push(links[i]);
             }
             return result;
-        }
-        var messageBody = get_links(story.getElementsByClassName("messageBody")[0]);
-        var attachments = get_links(story.getElementsByClassName("uiStreamAttachments")[0]);
-        var links = messageBody.concat(attachments);
-        for (var i = 0; i < links.length; i++) {
-            if (is_bad_link(links[i])) {
-                return true;
+        };
+
+        var any_bad_link = function(story, classes) {
+            for (var i = 0; i < classes.length; i++) {
+                var element = story.getElementsByClassName(classes[i])[0],
+                    links = get_links(element);
+                for (var j = 0; j < links.length; j++) {
+                    if (is_bad_link(links[j])) {
+                        return true;
+                    }
+                }
             }
-        }
-        return false;
+        };
+        return any_bad_link(story, ["messageBody", "uiStreamAttachments", "actorDescription"]);
     },
 
     remove: function(story) {
