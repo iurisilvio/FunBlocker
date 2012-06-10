@@ -151,7 +151,6 @@ $(document).ready(function(){
         };
         Story.add_plugin_buttons();
         var fb_button = $(".uiHovercardFooter .funblocker_button");
-        console.log(fb_button.length)
         ok(fb_button.length == 1);
         fb_button.eq(0).click();
     });
