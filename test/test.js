@@ -144,7 +144,7 @@ $(document).ready(function(){
         Story.remove(story);
     });
 
-    test("Hovercard FunBlocker button", 4, function() {
+    test("Hovercard FunBlocker button", 6, function() {
         chrome.extension = {
             sendRequest: function(data, callback) {
                 equal(data.command, "block");
@@ -154,7 +154,9 @@ $(document).ready(function(){
         };
         Story.add_plugin_buttons();
         var fb_button = $(".uiHovercardFooter .funblocker_button");
-        ok(fb_button.length == 1);
+        ok(fb_button.length == 3);
         fb_button.eq(0).click();
+        equal("Some guy", fb_button.eq(1).attr("data-funblocker"));
+        equal("Some app", fb_button.eq(2).attr("data-funblocker"));
     });
 });

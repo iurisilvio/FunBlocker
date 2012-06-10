@@ -8,6 +8,9 @@
     <script type="text/javascript" src="../fb.js"></script>
     <script type="text/javascript" src="../options.js"></script>
     <script type="text/javascript" src="test.js"></script>
+    <style>
+    .hidden_elem { display: none; }
+    </style>
     </head>
     <body>
         <h1 id="qunit-header">Funblocker tests</h1>
@@ -81,7 +84,15 @@
                 <div class="ellipsis">Some page</div>
                 <div class="uiHovercardFooter">
                     <div>
-                        <input value="Like"type="submit">
+                        <input value="Like" type="submit">
+                    </div>
+                </div>
+            </div>
+            <div class="uiOverlayContent">
+                <div class="ellipsis">My friend</div>
+                <div class="uiHovercardFooter">
+                    <div class="hidden_elem">
+                        <input value="Add friend" type="submit">
                     </div>
                 </div>
             </div>
@@ -89,7 +100,15 @@
                 <div class="ellipsis">Some guy</div>
                 <div class="uiHovercardFooter">
                     <div>
-                        <input value="Friends"type="submit">
+                        <input value="Add friend" type="submit">
+                    </div>
+                </div>
+            </div>
+            <div class="uiOverlayContent">
+                <a data-appname="Some app"></a>
+                <div class="uiHovercardFooter">
+                    <div>
+                        <input value="Add app" type="submit">
                     </div>
                 </div>
             </div>

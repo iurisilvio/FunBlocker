@@ -72,7 +72,8 @@ var Story = {
             return false;
         };
 
-        var elements = story.getElementsByClassName("mainWrapper")[0].childNodes;
+        var wrapper = story.getElementsByClassName("mainWrapper"),
+            elements = wrapper.length == 1 ? wrapper[0].childNodes : [];
         for (var i = 0; i < elements.length; i++) {
             var element = elements[i];
             if (element.tagName /* avoid Text elements */ &&
@@ -197,32 +198,40 @@ var Story = {
     },
 
     add_plugin_buttons: function() {
+        var find_ellipsis = function(overlay) {
+            var ellipsis = overlay.getElementsByClassName("ellipsis");
+            if (ellipsis.length > 0) {
+                ellipsis = ellipsis[0].innerHTML;
+            }
+            else {
+                var links = overlay.getElementsByTagName("a");
+                for (var i = 0; i < links.length; i++) {
+                    if (ellipsis = links[i].getAttribute("data-appname")) {
+                        break;
+                    }
+                }
+            }
+            return ellipsis;
+        }
         var overlays = document.getElementsByClassName("uiOverlayContent");
         for (var i = 0; i < overlays.length; i++) {
             var hovercard_footer = overlays[i].getElementsByClassName("uiHovercardFooter");
             if (hovercard_footer.length == 1 && hovercard_footer[0].getElementsByClassName("funblocker_button").length == 0) {
-                var buttons = hovercard_footer[0].getElementsByTagName("input"),
-                    like_button = undefined;
-                for (var j = 0; j < buttons.length; j++) {
-                    if (buttons[j].value == "Like") {
-                        like_button = buttons[j];
-                        break;
+                var buttons = hovercard_footer[0].getElementsByTagName("input");
+                if (buttons.length > 0) {
+                    var button_parent = buttons[0].parentNode;
+                    if (window.getComputedStyle(button_parent, null).display != "none") {
+                        var newLabel = document.createElement("label"),
+                            newInput = document.createElement("input");
+                        newLabel.className = "uiButton";
+                        newInput.className = "funblocker_button";
+                        newInput.value = "FunBlocker";
+                        newInput.type = "button";
+                        newInput.setAttribute("data-funblocker", find_ellipsis(overlays[i]));
+                        newLabel.appendChild(newInput);
+
+                        button_parent.parentNode.insertBefore(newLabel, button_parent);
                     }
-                }
-                if (like_button) {
-                    var ellipsis = overlays[i].getElementsByClassName("ellipsis");
-                    if (ellipsis.length > 0) { ellipsis = ellipsis[0].innerHTML; }
-
-                    var newLabel = document.createElement("label"),
-                        newInput = document.createElement("input");
-                    newLabel.className = "uiButton";
-                    newInput.className = "funblocker_button";
-                    newInput.value = "FunBlocker";
-                    newInput.type = "button";
-                    newInput.setAttribute("data-page", ellipsis);
-                    newLabel.appendChild(newInput);
-
-                    like_button.parentNode.parentNode.insertBefore(newLabel, like_button.parentNode);
                 }
             }
         }
@@ -233,7 +242,7 @@ document.addEventListener("click", function(e) {
     if (chrome.extension && e.target.className == "funblocker_button") {
         chrome.extension.sendRequest({
             command: "block",
-            text: e.target.getAttribute("data-page")
+            text: e.target.getAttribute("data-funblocker")
         });
     }
 });
