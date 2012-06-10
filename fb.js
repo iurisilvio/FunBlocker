@@ -71,29 +71,21 @@ var Story = {
             }
             return false;
         };
-        var get_links = function(element) {
-            var links = element && element.getElementsByTagName('a') || [];
-            var result = [];
-            var len = links.length;
-            for (var i = 0; i < len; i++) {
-                result.push(links[i]);
-            }
-            return result;
-        };
 
-        var any_bad_link = function(story, classes) {
-            for (var i = 0; i < classes.length; i++) {
-                var element = story.getElementsByClassName(classes[i])[0],
-                    links = get_links(element);
+        var elements = story.getElementsByClassName("mainWrapper")[0].childNodes;
+        for (var i = 0; i < elements.length; i++) {
+            var element = elements[i];
+            if (element.tagName /* avoid Text elements */ &&
+                element.tagName.toLowerCase() != "form" /* avoid comments */) {
+                var links = element.getElementsByTagName('a');
                 for (var j = 0; j < links.length; j++) {
                     if (is_bad_link(links[j])) {
                         return true;
                     }
                 }
             }
-            return false;
-        };
-        return any_bad_link(story, ["messageBody", "uiStreamAttachments", "actorDescription"]);
+        }
+        return false;
     },
 
     remove: function(story) {
