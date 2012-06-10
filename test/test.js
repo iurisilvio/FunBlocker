@@ -44,12 +44,18 @@ $(document).ready(function(){
         equal(Profile.load_all().length, 1);
     });
 
+    var XMLHttpRequest_original = XMLHttpRequest.prototype.send;
+
     module("FunBlocker", {
         setup: function() {
+            XMLHttpRequest.prototype.send = function(params) {
+                ok(true);
+            };
             bad_profiles = ["bad name", "bad_link"];
         },
         teardown: function() {
             chrome.extension = undefined;
+             XMLHttpRequest.prototype.send = XMLHttpRequest_original;
         }
     });
     test("Call request callback", function() {
@@ -83,7 +89,7 @@ $(document).ready(function(){
         }
     });
 
-    test("Remove a story", 3, function() {
+    test("Remove a story", 4, function() {
         chrome.extension = {
             sendRequest: function(data, callback) {
                 equal(data.command, "inc_plugin");
@@ -95,7 +101,7 @@ $(document).ready(function(){
         equal(Story.get_all().length, 4);
     });
 
-    test("Remove bad stories", function() {
+    test("Remove bad stories", 2, function() {
         Story.remove_all(Story.get_all());
         equal(Story.get_all().length, 2);
     });
@@ -110,11 +116,11 @@ $(document).ready(function(){
         Story.remove_callback();
     });
 
-    test("Main handler", 0, function() {
+    test("Main handler", 1, function() {
         Story.handler();
     });
-
-    test("Main FunBlocker function", 0, function() {
+    
+    test("Main Funblocker function", 1, function() {
         funblocker();
     });
 
@@ -132,9 +138,6 @@ $(document).ready(function(){
     });
 
     test("Try default hide only one time", 1, function() {
-        XMLHttpRequest.prototype.send = function(params) {
-            ok(true);
-        };
         var stories = $(".storyContent");
         var story = stories[1];
         Story.remove(story);
