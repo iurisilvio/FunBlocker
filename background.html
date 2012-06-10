@@ -59,21 +59,28 @@
             }
             localStorage.fb_counter++;
         }
+        else if (request.command == "block") {
+            block(request.text);
+        }
     });
+
+    function block(text) {
+        if (text) {
+            var bad_profiles = localStorage.bad_profiles ? JSON.parse(localStorage.bad_profiles) : undefined;
+            bad_profiles.push(text);
+            localStorage.bad_profiles = JSON.stringify(bad_profiles);
+        }
+    }
 
     chrome.contextMenus.create({
         "title": "FunBlocker this",
         "contexts": ["link", "selection"],
         "onclick": function(info, tabs) {
-            var text = (info.selectionText || info.linkUrl),
-                data = text.split("/"),
-                tip = data[data.length - (text[text.length - 1] == "/" ? 2 : 1)],
-                word = prompt("Adicione essa palavra no FunBlocker", tip);
-            if (word) {
-                var bad_profiles = localStorage.bad_profiles ? JSON.parse(localStorage.bad_profiles) : undefined;
-                bad_profiles.push(word);
-                localStorage.bad_profiles = JSON.stringify(bad_profiles);
-            }
+            var possible = (info.selectionText || info.linkUrl),
+                data = possible.split("/"),
+                tip = data[data.length - (possible[possible.length - 1] == "/" ? 2 : 1)],
+                text = prompt("Adicione essa palavra no FunBlocker", tip);
+            block(text);
         },
         "documentUrlPatterns": ["*://www.facebook.com/*"]
     });

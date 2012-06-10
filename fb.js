@@ -128,6 +128,7 @@ var Story = {
         if (stories) {
             this.remove_all(stories);
         }
+        Story.add_plugin_buttons();
     },
 
     try_default_hide: function(story) {
@@ -200,8 +201,49 @@ var Story = {
             node = tmp;
         }
         return node;
+    },
+
+    add_plugin_buttons: function() {
+        var overlays = document.getElementsByClassName("uiOverlayContent");
+        for (var i = 0; i < overlays.length; i++) {
+            var hovercard_footer = overlays[i].getElementsByClassName("uiHovercardFooter");
+            if (hovercard_footer.length == 1 && hovercard_footer[0].getElementsByClassName("funblocker_button").length == 0) {
+                var buttons = hovercard_footer[0].getElementsByTagName("input"),
+                    like_button = undefined;
+                for (var j = 0; j < buttons.length; j++) {
+                    if (buttons[j].value == "Like") {
+                        like_button = buttons[j];
+                        break;
+                    }
+                }
+                if (like_button) {
+                    var ellipsis = overlays[i].getElementsByClassName("ellipsis");
+                    if (ellipsis.length > 0) { ellipsis = ellipsis[0].innerHTML; }
+
+                    var newLabel = document.createElement("label"),
+                        newInput = document.createElement("input");
+                    newLabel.className = "uiButton";
+                    newInput.className = "funblocker_button";
+                    newInput.value = "FunBlocker";
+                    newInput.type = "button";
+                    newInput.setAttribute("data-page", ellipsis);
+                    newLabel.appendChild(newInput);
+
+                    like_button.parentNode.parentNode.insertBefore(newLabel, like_button.parentNode);
+                }
+            }
+        }
     }
 };
+
+document.addEventListener("click", function(e) {
+    if (chrome.extension && e.target.className == "funblocker_button") {
+        chrome.extension.sendRequest({
+            command: "block",
+            text: e.target.getAttribute("data-page")
+        });
+    }
+});
 
 function funblocker() {
     Story.handler();

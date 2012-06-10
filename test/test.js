@@ -44,14 +44,11 @@ $(document).ready(function(){
         equal(Profile.load_all().length, 1);
     });
 
-    var XMLHttpRequest_original = XMLHttpRequest.prototype.send;
-
     module("FunBlocker", {
         setup: function() {
             bad_profiles = ["bad name", "bad_link"];
         },
         teardown: function() {
-            XMLHttpRequest.prototype.send = XMLHttpRequest_original;
             chrome.extension = undefined;
         }
     });
@@ -142,5 +139,20 @@ $(document).ready(function(){
         var story = stories[1];
         Story.remove(story);
         Story.remove(story);
+    });
+
+    test("Hovercard FunBlocker button", 4, function() {
+        chrome.extension = {
+            sendRequest: function(data, callback) {
+                equal(data.command, "block");
+                equal(data.text, "Some page");
+                ok(callback === undefined);
+            }
+        };
+        Story.add_plugin_buttons();
+        var fb_button = $(".uiHovercardFooter .funblocker_button");
+        console.log(fb_button.length)
+        ok(fb_button.length == 1);
+        fb_button.eq(0).click();
     });
 });
