@@ -91,6 +91,7 @@ var Story = {
                     }
                 }
             }
+            return false;
         };
         return any_bad_link(story, ["messageBody", "uiStreamAttachments", "actorDescription"]);
     },
