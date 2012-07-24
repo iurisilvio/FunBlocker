@@ -8,49 +8,9 @@
         padding: 2px 4px;
     }
 </style>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="options.js"></script>
-<script>
-    function line_template(value) {
-        return "<tr><td>" + value + "</td><td style='text-align:right;'><a onclick='remove_profile(\"" + value.replace("\\", "\\\\") + "\")' class='btn removebtn'>Remove</a></td></tr>"
-    }
-
-    function add_profile(value) {
-        Profile.add(value);
-        $("#profiles").append(line_template(value));
-        $("#new_profile").val("").focus();
-    }
-
-    function remove_profile(value) {
-        Profile.remove(value);
-        $("#profiles td").filter(function() {
-            return $(this).text() == value;
-        }).parent("tr").remove();
-    }
-
-    $(document).ready(function() {
-        $("#new_profile").keypress(function(e) {
-            if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
-                $("#add_new_profile").click();
-                return false;
-            }
-            else {
-                return true;
-            }
-        });
-        var profiles = Profile.load_all();
-        var result = "";
-        for (var i = 0; i < profiles.length; i++) {
-            result += line_template(profiles[i]);
-        };
-        $("#profiles").append(result);
-
-        $("#plugin_removed").html(localStorage.plugin_counter || 0);
-        $("#fb_removed").html(localStorage.fb_counter || 0);
-        $("#words").html(JSON.parse(localStorage.bad_profiles).length);
-        $("#since").html(localStorage.since);
-    });
-</script>
+<script type="text/javascript" src="options_page.js"></script>
 </head>
 <body>
     <h1>FunBlocker</h1>
@@ -63,7 +23,7 @@
     </div>
     <input type="text" id="new_profile" style="height:30px;">
     <span>
-    <a id="add_new_profile" class="btn primary" onclick="javascript:add_profile($('#new_profile').val())">Add</a>
+    <a id="add_new_profile" class="btn primary">Add</a>
     </span>
     <table id="profiles" class="zebra-striped condensed-table" style="width:300px">
     </table>
