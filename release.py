@@ -6,7 +6,9 @@ import zipfile
 FILES = ["manifest.json",
          "fb.js",
          "options.js",
-         "background.html",
+         "options_page.js",
+         "background.js",
+         "jquery.js",
          "options.html",
          "icon-16.png"]
 
