@@ -91,7 +91,7 @@ chrome.contextMenus.create({
     "title": "FunBlocker this",
     "contexts": ["link", "selection"],
     "onclick": function(info, tabs) {
-        var possible = (info.selectionText || info.linkUrl),
+        var possible = (info.selectionText || info.linkUrl.split("?")[0]),
             data = possible.split("/"),
             tip = data[data.length - (possible[possible.length - 1] == "/" ? 2 : 1)],
             text = prompt("Adicione essa palavra no FunBlocker", tip);
