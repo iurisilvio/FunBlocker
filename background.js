@@ -1,3 +1,19 @@
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-27479360-1']);
+(function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = 'https://ssl.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+function _trackEvent(category, action, opt_label, opt_value, opt_noninteraction) {
+    if (_gaq) {
+        var data = ["_trackEvent", category, action,
+            opt_label.toLowerCase(), opt_value, opt_noninteraction];
+        _gaq.push(data);
+    }
+}
+
 var default_config = {
     bad_profiles: [
         'PiadasFail', 'HumorNoFace', 'Jo Suado',
@@ -49,6 +65,7 @@ chrome.extension.onRequest.addListener(function(request, sender, callback) {
             localStorage.plugin_counter = 0;
         }
         localStorage.plugin_counter++;
+        _trackEvent("remove", "plugin", request.text, 1, true);
     }
     else if (request.command == "inc_fb") {
         if (!localStorage.fb_counter) {
@@ -58,6 +75,7 @@ chrome.extension.onRequest.addListener(function(request, sender, callback) {
     }
     else if (request.command == "block") {
         block(request.text);
+        _trackEvent("block", "hovercard", request.text);
     }
 });
 
@@ -78,6 +96,7 @@ chrome.contextMenus.create({
             tip = data[data.length - (possible[possible.length - 1] == "/" ? 2 : 1)],
             text = prompt("Adicione essa palavra no FunBlocker", tip);
         block(text);
+        _trackEvent("block", "context-menu", text, text == tip ? 1 : 0);
     },
     "documentUrlPatterns": ["*://www.facebook.com/*"]
 });

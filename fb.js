@@ -66,6 +66,9 @@ var Story = {
             for (var i = 0; i < bad_profiles.length; i++) {
                 var profile = bad_profiles[i];
                 if (name == profile || url.indexOf(profile) != -1) {
+                    if (!story._funblocker_text) {
+                        story._funblocker_text = profile;
+                    }
                     return true;
                 }
             }
@@ -98,7 +101,10 @@ var Story = {
         var wrapper = Story.get_story_wrapper(story);
         wrapper.style.display = "none";
         if (chrome.extension) {
-            chrome.extension.sendRequest({command: "inc_plugin"});
+            chrome.extension.sendRequest({
+                command: "inc_plugin",
+                text: story._funblocker_text
+            });
         }
         Story.try_default_hide(story);
     },
