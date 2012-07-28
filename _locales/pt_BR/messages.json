@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "FunBlocker",
+    "description": "Nome do aplicativo."
+  },
+  "appDesc": {
+    "message": "FunBlocker é uma extensão para remover posts chatos do Facebook, como HumorNoFace, JoSuado e outros.",
+    "description": "Descrição do aplicativo, mostrada na loja de aplicativos do Chrome."
+  }
+}

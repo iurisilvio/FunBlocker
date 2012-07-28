@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "FunBlocker",
+    "description": "App name."
+  },
+  "appDesc": {
+    "message": "FunBlocker removes posts based in post links, it is really useful to remove Facebook reshares from pages you do not want to follow.",
+    "description": "App description to Chrome Web Store."
+  }
+}
