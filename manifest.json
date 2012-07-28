@@ -1,8 +1,8 @@
 {
   "name": "__MSG_appName__",
-  "version": "0.7.7",
+  "version": "0.7.8",
 
-  "default_locale": "pt_BR",
+  "default_locale": "en",
   "description": "__MSG_appDesc__",
   "content_scripts": [
     {
