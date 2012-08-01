@@ -17,6 +17,12 @@ function _trackEvent(category, action, opt_label, opt_value, opt_noninteraction)
     }
 }
 
+function _trackPageview(url) {
+    if (_gaq) {
+        _gaq.push(["_trackPageview", url]);
+    }
+}
+
 var default_config = {
     bad_profiles: [
         'PiadasFail', 'HumorNoFace', 'Jo Suado',
@@ -79,6 +85,12 @@ chrome.extension.onRequest.addListener(function(request, sender, callback) {
     else if (request.command == "block") {
         block(request.text);
         _trackEvent("block", "hovercard", request.text);
+    }
+    else if (request.command == "_trackEvent") {
+        _trackEvent(request.action, request.origin, request.text);
+    }
+    else if (request.command == "_trackPageview") {
+        _trackPageview(request.url);
     }
 });
 

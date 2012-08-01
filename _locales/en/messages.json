@@ -6,5 +6,25 @@
   "appDesc": {
     "message": "FunBlocker removes posts based in post links, it is really useful to remove Facebook reshares from pages you do not want to follow.",
     "description": "App description to Chrome Web Store."
+  },
+  "dataSince": {
+    "message": "Data collected since",
+    "description": "String in options page"
+  },
+  "postsRemovedByFunBlocker": {
+    "message": "Posts removed by FunBlocker",
+    "description": "String in options page"
+  },
+  "postsRemovedByFacebook": {
+    "message": "Posts removed by Facebook",
+    "description": "String in options page"
+  },
+  "postsRemovedByFacebookHelper": {
+    "message": "FunBlocker try to send a 'Hide Story' signal to Facebook, this number counts how many times it worked as expected.",
+    "description": "String in options page"
+  },
+  "wordsCount": {
+    "message": "Total words",
+    "description": "String in options page"
   }
 }

@@ -6,6 +6,12 @@ function add_profile(value) {
     Profile.add(value);
     $("#profiles").append(line_template(value));
     $("#new_profile").val("").focus();
+    chrome.extension.sendRequest({
+        command: "_trackEvent",
+        action: "block",
+        text: value,
+        origin: "options"
+    });
 }
 
 function remove_profile(value) {
@@ -13,6 +19,12 @@ function remove_profile(value) {
     $("#profiles td").filter(function() {
         return $(this).text() == value;
     }).parent("tr").remove();
+    chrome.extension.sendRequest({
+        command: "_trackEvent",
+        action: "unblock",
+        text: value,
+        origin: "options"
+    });
 }
 
 $(document).ready(function() {
@@ -42,4 +54,21 @@ $(document).ready(function() {
     $("#fb_removed").html(localStorage.fb_counter || 0);
     $("#words").html(JSON.parse(localStorage.bad_profiles).length);
     $("#since").html(localStorage.since);
+
+    $("[data-message]").each(function() {
+        var key = $(this).attr("data-message");
+        var msg = chrome.i18n.getMessage(key);
+        var attr = $(this).attr("data-attr");
+        if (attr) {
+            $(this).attr(attr, msg);
+        }
+        else {
+            $(this).html(msg);
+        }
+    });
+});
+
+chrome.extension.sendRequest({
+    command: "_trackPageview",
+    url: "options.html"
 });

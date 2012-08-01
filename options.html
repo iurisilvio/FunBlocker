@@ -15,10 +15,11 @@
 <body>
     <h1>FunBlocker</h1>
     <div id="stats">
-        Dados desde: <span id="since"></span><br />
-        Posts removidos pelo FunBlocker: <span id="plugin_removed"></span><br />
-        Posts removidos pelo Facebook: <span title="O FunBlocker além de remover o post também deu 'Hide Story'." id="fb_removed"></span><br />
-        Palavras adicionadas: <span id="words"></span><br />
+
+        <span data-message="dataSince"></span>: <span id="since"></span><br />
+        <span data-message="postsRemovedByFunBlocker"></span>: <span id="plugin_removed"></span><br />
+        <span data-message="postsRemovedByFacebook"></span>: <span data-message="postsRemovedByFacebookHelper" data-attr="title" id="fb_removed"></span><br />
+        <span data-message="wordsCount"></span>: <span id="words"></span><br />
         &nbsp;
     </div>
     <input type="text" id="new_profile" style="height:30px;">

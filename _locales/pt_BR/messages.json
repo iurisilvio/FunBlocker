@@ -6,5 +6,25 @@
   "appDesc": {
     "message": "FunBlocker é uma extensão para remover posts chatos do Facebook, como HumorNoFace, JoSuado e outros.",
     "description": "Descrição do aplicativo, mostrada na loja de aplicativos do Chrome."
+  },
+  "dataSince": {
+    "message": "Dados coletados desde",
+    "description": "Texto na página de opções"
+  },
+  "postsRemovedByFunBlocker": {
+    "message": "Posts removidos pelo FunBlocker",
+    "description": "Texto na página de opções"
+  },
+  "postsRemovedByFacebook": {
+    "message": "Posts removidos pelo Facebook",
+    "description": "Texto na página de opções"
+  },
+  "postsRemovedByFacebookHelper": {
+    "message": "O FunBlocker envia um pedido para o Facebook esconder a mensagem. Esse número conta quantas vezes isso funcionou.",
+    "description": "Texto na página de opções"
+  },
+  "wordsCount": {
+    "message": "Total de palavras",
+    "description": "Texto na página de opções"
   }
 }
