@@ -3,6 +3,11 @@ function line_template(value) {
 }
 
 function add_profile(value) {
+    if (value == '' || value.lenght == 0) {
+        $("#new_profile").focus();
+        return false;
+    }
+    
     Profile.add(value);
     $("#profiles").append(line_template(value));
     $("#new_profile").val("").focus();
