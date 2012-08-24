@@ -5,7 +5,7 @@ function request_callback(json_result) {
     for (var i = 0; i < result.length; i++) {
         result[i] = result[i].toLowerCase();
     }
-    return result;
+    return result.filter(function(element) { return element.length > 3; });
 }
 
 // Request configuration data to background page.
