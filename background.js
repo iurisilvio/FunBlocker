@@ -14,6 +14,12 @@ function _trackEvent(category, action, opt_label, opt_value, opt_noninteraction)
     }
 }
 
+function _trackPageview(url) {
+    if (_gaq) {
+        _gaq.push(["_trackPageview", url]);
+    }
+}
+
 var default_config = {
     bad_profiles: [
         'PiadasFail', 'HumorNoFace', 'Jo Suado',
@@ -56,7 +62,7 @@ setInterval(function() {
     }
     executeScript("funblocker()");
 }, 1000);
-chrome.extension.onRequest.addListener(function(request, sender, callback) {
+chrome.extension.onMessage.addListener(function(request, sender, callback) {
     if (request.command == "bad_profiles") {
         callback(localStorage.bad_profiles);
     }
@@ -77,6 +83,12 @@ chrome.extension.onRequest.addListener(function(request, sender, callback) {
         block(request.text);
         _trackEvent("block", "hovercard", request.text);
     }
+    else if (request.command == "_trackEvent") {
+        _trackEvent(request.action, request.origin, request.text);
+    }
+    else if (request.command == "_trackPageview") {
+        _trackPageview(request.url);
+    }
 });
 
 function block(text) {
@@ -91,7 +103,7 @@ chrome.contextMenus.create({
     "title": "FunBlocker this",
     "contexts": ["link", "selection"],
     "onclick": function(info, tabs) {
-        var possible = (info.selectionText || info.linkUrl.split("?")[0]),
+        var possible = (info.selectionText || info.linkUrl),
             data = possible.split("/"),
             tip = data[data.length - (possible[possible.length - 1] == "/" ? 2 : 1)],
             text = prompt("Adicione essa palavra no FunBlocker", tip);

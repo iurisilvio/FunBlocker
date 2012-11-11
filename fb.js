@@ -11,13 +11,12 @@ function request_callback(json_result) {
 // Request configuration data to background page.
 function update_data() {
     if (chrome.extension) {
-        chrome.extension.sendRequest({command: "bad_profiles"}, function(result) {
+        chrome.extension.sendMessage({command: "bad_profiles"}, function(result) {
             bad_profiles = request_callback(result);
         });
     }
 }
 
-update_data();
 
 function _async_post(url, data) {
     function serialize(obj) {
@@ -101,7 +100,7 @@ var Story = {
         var wrapper = Story.get_story_wrapper(story);
         wrapper.style.display = "none";
         if (chrome.extension) {
-            chrome.extension.sendRequest({
+            chrome.extension.sendMessage({
                 command: "inc_plugin",
                 text: story._funblocker_text
             });
@@ -119,7 +118,7 @@ var Story = {
 
     remove_callback: function(data) {
         if (chrome.extension) {
-            chrome.extension.sendRequest({command: "inc_fb"});
+            chrome.extension.sendMessage({command: "inc_fb"});
         }
     },
 
@@ -219,11 +218,18 @@ var Story = {
             }
             return ellipsis;
         }
-        var overlays = document.getElementsByClassName("uiOverlayContent");
+
+        var overlays = document.getElementsByClassName("uiContextualLayer");
+        if (overlays.length == 0) {
+            overlays = document.getElementsByClassName("uiOverlayContent");
+        }
         for (var i = 0; i < overlays.length; i++) {
-            var hovercard_footer = overlays[i].getElementsByClassName("uiHovercardFooter");
-            if (hovercard_footer.length == 1 && hovercard_footer[0].getElementsByClassName("funblocker_button").length == 0) {
-                var buttons = hovercard_footer[0].getElementsByTagName("input");
+            var hovercard_footer = overlays[i].getElementsByClassName("uiBoxGray");
+            if (hovercard_footer.length == 0) {
+                hovercard_footer = overlays[i].getElementsByClassName("uiHoverFooter");
+            }
+            if (hovercard_footer.length == 1 && hovercard_footer[0].getElementsByClassName("funblocker_button").length == 0) { 
+               var buttons = hovercard_footer[0].getElementsByTagName("input");
                 if (buttons.length > 0) {
                     var button_parent = buttons[0].parentNode;
                     if (window.getComputedStyle(button_parent, null).display != "none") {
@@ -246,7 +252,7 @@ var Story = {
 
 document.addEventListener("click", function(e) {
     if (chrome.extension && e.target.className == "funblocker_button") {
-        chrome.extension.sendRequest({
+        chrome.extension.sendMessage({
             command: "block",
             text: e.target.getAttribute("data-funblocker")
         });
@@ -254,5 +260,8 @@ document.addEventListener("click", function(e) {
 });
 
 function funblocker() {
+    if (bad_profiles.length == 0) {
+        update_data();
+    }
     Story.handler();
 }
