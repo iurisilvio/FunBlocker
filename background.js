@@ -103,9 +103,14 @@ chrome.contextMenus.create({
     "title": "FunBlocker this",
     "contexts": ["link", "selection"],
     "onclick": function(info, tabs) {
+
+        var validate_tip = function(tip) {
+            return tip.length != 0 && tip.indexOf('?') != 0 ? tip : undefined;
+        };
+
         var possible = (info.selectionText || info.linkUrl),
             data = possible.split("/"),
-            tip = data[data.length - (possible[possible.length - 1] == "/" ? 2 : 1)],
+            tip = validate_tip(data[data.length - 1]) || validate_tip(data[data.length - 2]) || possible,
             text = prompt("Adicione essa palavra no FunBlocker", tip);
         block(text);
         _trackEvent("block", "context-menu", text, text == tip ? 1 : 0);
