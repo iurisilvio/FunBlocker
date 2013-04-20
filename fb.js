@@ -243,8 +243,11 @@ var Story = {
                         newInput.type = "button";
                         newInput.setAttribute("data-funblocker", find_ellipsis(overlays[i]));
                         newLabel.appendChild(newInput);
-
-                        button_parent.parentNode.insertBefore(newLabel, button_parent);
+                        
+                        /* check if the find_ellipsis return a valid data before insert the button in the popup */
+                        if (find_ellipsis(overlays[i])) !== null || find_ellipsis(overlays[i])) != "null") {
+                            button_parent.parentNode.insertBefore(newLabel, button_parent);
+                        }
                     }
                 }
             }
