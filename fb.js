@@ -235,17 +235,18 @@ var Story = {
                 if (buttons.length > 0) {
                     var button_parent = buttons[0].parentNode;
                     if (window.getComputedStyle(button_parent, null).display != "none") {
+                        var funblockerData = find_ellipsis(overlays[i]);
                         var newLabel = document.createElement("label"),
                             newInput = document.createElement("input");
                         newLabel.className = "uiButton";
                         newInput.className = "funblocker_button";
                         newInput.value = "FunBlocker";
                         newInput.type = "button";
-                        newInput.setAttribute("data-funblocker", find_ellipsis(overlays[i]));
+                        newInput.setAttribute("data-funblocker", funblockerData);
                         newLabel.appendChild(newInput);
                         
                         /* check if the find_ellipsis return a valid data before insert the button in the popup */
-                        if (find_ellipsis(overlays[i])) !== null || find_ellipsis(overlays[i])) != "null") {
+                        if ((funblockerData !== null) || (funblockerData != "null")) {
                             button_parent.parentNode.insertBefore(newLabel, button_parent);
                         }
                     }
