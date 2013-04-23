@@ -246,7 +246,7 @@ var Story = {
                         newLabel.appendChild(newInput);
                         
                         /* check if the find_ellipsis return a valid data before insert the button in the popup */
-                        if ((funblockerData !== null) || (funblockerData != "null")) {
+                        if ((funblockerData !== null) && (funblockerData != "null")) {
                             button_parent.parentNode.insertBefore(newLabel, button_parent);
                         }
                     }
