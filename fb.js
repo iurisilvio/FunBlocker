@@ -1,4 +1,5 @@
-var bad_profiles = [];
+var bad_profiles = [],
+    _FB_VERSION /* arbitrary number to handle different facebook interface versions */;
 
 function request_callback(json_result) {
     var result = JSON.parse(json_result);
@@ -45,8 +46,16 @@ function _async_post(url, data) {
 var Story = {
 
     get_all: function(show_hidden) {
-        var content = document.getElementById('contentArea');
-        var all_stories = content ? content.getElementsByClassName('storyContent') : [];
+        var content = document.getElementById('contentArea'),
+            all_stories = [];
+        if (content) {
+            all_stories = content.getElementsByClassName('storyContent');
+            _FB_VERSION = 1;
+            if (all_stories.length == 0) {
+                all_stories = content.getElementsByClassName('userContentWrapper');
+                _FB_VERSION = 2;
+            }
+        }
         if (!show_hidden) {
             var visible_stories = [];
             for (var i = 0; i < all_stories.length; i++) {
@@ -76,8 +85,15 @@ var Story = {
             return false;
         };
 
-        var wrapper = story.getElementsByClassName("mainWrapper"),
-            elements = wrapper.length == 1 ? wrapper[0].childNodes : [];
+        var elements = [];
+        var wrapper = story.getElementsByClassName(_FB_VERSION == 2 ? "userContent" : "mainWrapper");
+        if (wrapper.length > 0) {
+            wrapper = wrapper[0];
+            if (_FB_VERSION == 2) {
+                wrapper = wrapper.parentNode;
+            }
+            elements = wrapper.childNodes;
+        }
         for (var i = 0; i < elements.length; i++) {
             var element = elements[i];
             if (element.tagName /* avoid Text elements */ &&
@@ -194,6 +210,9 @@ var Story = {
     },
 
     get_story_wrapper: function(story) {
+        if (_FB_VERSION == 2) {
+            return story;
+        }
         var node = story;
         var parent = node.parentNode;
         while (parent && parent.tagName != 'UL') {
@@ -208,7 +227,7 @@ var Story = {
         var find_ellipsis = function(overlay) {
             var ellipsis = overlay.getElementsByClassName("ellipsis");
             if (ellipsis.length > 0) {
-                ellipsis = ellipsis[0].innerHTML;
+                ellipsis = ellipsis[0].innerText;
             }
             else {
                 var links = overlay.getElementsByTagName("a");
