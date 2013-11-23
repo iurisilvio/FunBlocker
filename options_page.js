@@ -1,5 +1,5 @@
 function line_template(value) {
-    return "<tr><td>" + value + "</td><td style='text-align:right;'><a data-text=\"" + value.replace("\\", "\\\\") + "\" class='btn removebtn'>Remove</a></td></tr>"
+    return "<tr><td>" + value + "</td><td style='text-align:right;'><a data-text=\"" + encodeURIComponent(value) + "\" class='btn removebtn'>Remove</a></td></tr>"
 }
 
 function add_profile(value) {
@@ -46,7 +46,7 @@ $(document).ready(function() {
         add_profile($("#new_profile").val());
     });
     $(".removebtn").live("click", function() {
-        remove_profile($(this).attr("data-text"));
+        remove_profile(decodeURIComponent($(this).attr("data-text")));
     });
     var profiles = Profile.load_all();
     var result = "";
